@@ -122,9 +122,9 @@ def main(_):
         stat.on_step(avg_train_cost, avg_test_cost)
 
         # 3. generate samples
-        samples = network.generate()
+       	samples = network.generate(images)
         logger.info("save images")
-        save_images(samples, height, width, 10, 10, directory=SAMPLE_DIR, prefix="epoch_%s" % epoch)
+        save_images(samples, height, width, 4, 4, directory=SAMPLE_DIR, prefix="epoch_%s" % epoch)
         #save_images(samples, height, width, 10, 10, directory="./save", prefix="epoch_%s" % epoch)
         iterator.set_description("train l: %.3f, test l: %.3f" % (avg_train_cost, avg_test_cost))
         print

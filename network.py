@@ -120,9 +120,15 @@ class Network:
       cost = self.sess.run(self.loss, feed_dict={self.l['inputs']: images })
     return cost
 
-  def generate(self):
-    samples = np.zeros((100, self.height, self.width, self.channel), dtype='float32')
+  def occlude(self,images, height, width, channel):
+    assert images.shape == (len(images), height, width, channel), 'shape doesn\'t match expected shape'
+    samples = images
+    samples[:, height // 2:, :, :] = 0
+    return samples
 
+  def generate(self,images):
+    # samples = np.zeros((100, self.height, self.width, self.channel), dtype='float32')
+    samples = self.occlude(images, self.height, self.width, self.channel)
     for i in np.arange(self.height):
       for j in np.arange(self.width):
         for k in np.arange(self.channel):
