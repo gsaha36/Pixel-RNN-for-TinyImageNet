@@ -7,7 +7,7 @@ import urllib
 import pprint
 import tarfile
 import tensorflow as tf
-
+import json
 import datetime
 import dateutil.tz
 import numpy as np
@@ -16,6 +16,18 @@ import scipy.misc
 
 pp = pprint.PrettyPrinter().pprint
 logger = logging.getLogger(__name__)
+
+def setup_model_saving(model_name, data, hyperparams=None, root_dir='run/'):
+  # construct the model directory template name
+  name = os.path.join(root_dir, data, model_name + '%s')
+  # iterate until we find an index that hasn't been taken yet.
+  i = 0
+  while os.path.exists(name % i):
+    i += 1
+  name = name % i
+  # create the folder
+  os.makedirs(name)
+  return name
 
 def mprint(matrix, pivot=0.5):
   for array in matrix:

@@ -56,16 +56,15 @@ tf.set_random_seed(conf.random_seed)
 np.random.seed(conf.random_seed)
 
 def main(_):
-  model_dir = conf.sample_dir
-  # model_dir = get_model_dir(conf, ['data_dir', 'sample_dir', 'max_epoch', 'test_step', 'save_step', 'is_train', 'random_seed', 'log_level', 'display'])
+  model_dir = setup_model_saving(conf.model, conf.data, conf)
   preprocess_conf(conf)
   #save data images
   DATA_DIR   = os.path.join(conf.data_dir, conf.data)
   #save generate sample images
-  # SAMPLE_DIR = os.path.join(conf.sample_dir, conf.data, model_dir)
+  SAMPLE_DIR = os.path.join(conf.sample_dir, conf.data, model_dir)
 
   check_and_create_dir(DATA_DIR)
-  check_and_create_dir(conf.sample_dir)
+  check_and_create_dir(SAMPLE_DIR)
 
   # 0. prepare datasets
   if conf.data == "mnist":
@@ -125,8 +124,8 @@ def main(_):
         # 3. generate samples
         samples = network.generate()
         logger.info("save images")
-        #save_images(samples, height, width, 10, 10, directory=SAMPLE_DIR, prefix="epoch_%s" % epoch)
-        save_images(samples, height, width, 10, 10, directory="./save", prefix="epoch_%s" % epoch)
+        save_images(samples, height, width, 10, 10, directory=SAMPLE_DIR, prefix="epoch_%s" % epoch)
+        #save_images(samples, height, width, 10, 10, directory="./save", prefix="epoch_%s" % epoch)
         iterator.set_description("train l: %.3f, test l: %.3f" % (avg_train_cost, avg_test_cost))
         print
     else:
