@@ -49,6 +49,12 @@ def get_timestamp():
 def binarize(images):
   return (np.random.uniform(size=images.shape) < images).astype('float32')
 
+def save_images_in(images,cmin=0.0, cmax=1.0,directory="./",prefix="sample"):
+  index = 1
+  for i in np.arange(images.shape[0]):
+    filename = '%s_%s_%s.jpg' % (i,prefix, get_timestamp())
+    scipy.misc.toimage(images[i].reshape(images[i].shape[0],images[i].shape[1]), cmin=0, cmax=255).save(filename)
+
 def save_images(images, height, width, n_row, n_col, cmin=0.0, cmax=1.0, directory="./", prefix="sample"):
   images = images.reshape((n_row, n_col, height, width))
   images = images.transpose(1, 2, 0, 3)
