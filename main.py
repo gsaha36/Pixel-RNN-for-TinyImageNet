@@ -83,9 +83,13 @@ def main(_):
   elif conf.data == "cifar":
     from cifar10 import IMAGE_SIZE, inputs, NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN, NUM_EXAMPLES_PER_EPOCH_FOR_EVAL
     maybe_download_and_extract(DATA_DIR)
-    images, labels = inputs(eval_data=False, data_dir=os.path.join(DATA_DIR, 'cifar-10-batches-bin'), batch_size=conf.batch_size)
-
-    height, width, channel = IMAGE_SIZE, IMAGE_SIZE, 3
+    #images, labels = inputs(eval_data=False, data_dir=os.path.join(DATA_DIR, 'cifar-10-batches-bin'), batch_size=conf.batch_size)
+    from imagenet_dataloader import input_data
+    imagenet = input_data()
+    next_train_batch = lambda x: imagenet.train.next_batch(x)
+    next_test_batch = lambda x: imagenet.test.next_batch(x)
+    height, width, channel = 64, 64, 3
+    #height, width, channel = IMAGE_SIZE, IMAGE_SIZE, 3
     train_step_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / conf.batch_size
     test_step_per_epoch  = NUM_EXAMPLES_PER_EPOCH_FOR_EVAL  / conf.batch_size
   with tf.Session() as sess:
