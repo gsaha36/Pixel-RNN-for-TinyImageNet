@@ -55,13 +55,20 @@ def save_images_in(images,cmin=0.0, cmax=1.0,directory="./",prefix="sample"):
     filename = '%s_%s_%s.jpg' % (i,prefix, get_timestamp())
     scipy.misc.toimage(images[i].reshape(images[i].shape[0],images[i].shape[1]), cmin=0, cmax=255).save(filename)
 
-def save_images(images, height, width, n_row, n_col, cmin=0.0, cmax=1.0, directory="./", prefix="sample"):
-  images = images.reshape((n_row, n_col, height, width))
-  images = images.transpose(1, 2, 0, 3)
-  images = images.reshape((height * n_row, width * n_col))
+def save_images(images, height, width,channel, n_row, n_col, cmin=0.0, cmax=1.0, directory="./", prefix="sample"):
+  if channel == 1:
+      images = images.reshape((n_row, n_col, height, width))
+      images = images.transpose(1, 2, 0, 3)
+      images = images.reshape((height * n_row, width * n_col))
+      filename = '%s_%s.jpg' % (prefix, get_timestamp())
+      scipy.misc.toimage(images, cmin=cmin, cmax=cmax).save(os.path.join(directory, filename))
 
-  filename = '%s_%s.jpg' % (prefix, get_timestamp())
-  scipy.misc.toimage(images, cmin=cmin, cmax=cmax).save(os.path.join(directory, filename))
+  elif channel == 3:
+      images = images.reshape((n_row, n_col, height, width,channel))
+      images = images.transpose(1, 2, 0, 3, 4)
+      images = images.reshape((height * n_row, width * n_col,channel))
+      filename = '%s_%s.jpg' % (prefix, get_timestamp())
+      scipy.misc.toimage(images).save(os.path.join(directory, filename))
 
 def get_model_dir(conf, exceptions=None):
   # attrs = conf.__dict__['__flags']

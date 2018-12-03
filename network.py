@@ -127,9 +127,9 @@ class Network:
     return samples
 
   def generate(self,images,SAMPLE_DIR):
-    # samples = np.zeros((100, self.height, self.width, self.channel), dtype='float32')
-    samples = self.occlude(images, self.height, self.width, self.channel)
-    save_images_in(samples,4,4,directory=SAMPLE_DIR,prefix="occlude_%s" % 1)
+    samples = np.zeros((100, self.height, self.width, self.channel), dtype='float32')
+    #samples = self.occlude(images, self.height, self.width, self.channel)
+    #save_images_in(samples,4,4,directory=SAMPLE_DIR,prefix="occlude_%s" % 1)
     for i in np.arange(self.height):
       for j in np.arange(self.width):
         for k in np.arange(self.channel):

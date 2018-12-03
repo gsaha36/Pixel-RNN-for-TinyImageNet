@@ -124,8 +124,7 @@ def main(_):
         # 3. generate samples
        	samples = network.generate(images,SAMPLE_DIR)
         logger.info("save images")
-        save_images_in(samples, 4, 4, directory=SAMPLE_DIR,prefix="epoch_%s" % epoch)
-    	#save_images(samples, height, width, 10, 10, directory="./save", prefix="epoch_%s" % epoch)
+        save_images(samples, height, width, channel,10, 10, directory=SAMPLE_DIR, prefix="epoch_%s" % epoch)
         iterator.set_description("train l: %.3f, test l: %.3f" % (avg_train_cost, avg_test_cost))
         print
     else:
